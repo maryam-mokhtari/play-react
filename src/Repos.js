@@ -1,6 +1,8 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import Repo from './Repo'
 import Avatar from 'material-ui/lib/avatar'
+import { setActiveRepo } from './configureStore'
 
 class Repos extends React.Component {
   constructor(props) {
@@ -10,23 +12,28 @@ class Repos extends React.Component {
   }
 
   handleClick(repo) {
-    this.props.handler(repo)
-    this.setState({active: repo})
+    //this.props.handler(repo)
+    //this.setState({active: repo})
+    this.props.dispatch(setActiveRepo(repo))
     console.log('Repos Clicked, state=', this.state);
   }
 
   render() {
+    console.log('repos render called')
     if (!this.props.repos) {
       return <div>loading...</div>
     } else {
+      //const state = store.getState()
+      const { active } = this.props
       return (
+
         <div style={styles.container}>
           <Avatar src="https://avatars2.githubusercontent.com/u/239742?v=3&s=400" />
           <div style={styles.repos}>
             {this.props.repos.map(repo =>
               <Repo
                 onClick={this.handleClick}
-                active={this.state.active===repo}
+                active={active===repo}
                 repo={repo}
               />
             )}
@@ -53,4 +60,8 @@ const styles = {
   },
   totalRepos: { color:'gray'}
 }
-export default Repos
+
+const mapStateToProps = (state) => {
+  return { active: state.active }
+}
+export default connect(mapStateToProps)(Repos)

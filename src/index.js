@@ -1,6 +1,11 @@
 import React from 'react'
 import {render} from 'react-dom'
-
+import { Provider} from 'react-redux'
 import App from './App'
 
-render(<App/>, document.querySelector('#app'))
+import { store } from './configureStore'
+
+render(
+ <Provider store={store}>
+  <App/>
+</Provider>, document.querySelector('#app'))

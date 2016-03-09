@@ -1,4 +1,5 @@
 import React from 'react'
+import {connect} from 'react-redux'
 
 import Message from './Message'
 import Repos from './Repos'
@@ -15,7 +16,7 @@ export default class App extends React.Component {
       }
       console.log("Constructor Called!");
       this.handleClick = this.handleClick.bind(this)
-      this.handleRepoActiveChange = this.handleRepoActiveChange.bind(this)
+      //this.handleRepoActiveChange = this.handleRepoActiveChange.bind(this)
   }
 
   componentDidMount() {
@@ -25,6 +26,7 @@ export default class App extends React.Component {
     .then(res=> res.json())
     .then(res=> {
       this.setState({myRepos: res})
+
       console.log('got response')
     })
 
@@ -59,11 +61,11 @@ export default class App extends React.Component {
     // })
     this.forceUpdate()
   }
-
-  handleRepoActiveChange(repo) {
-    console.log('Handle Repo active change');
-    this.setState({repo})
-  }
+  //
+  // handleRepoActiveChange(repo) {
+  //   console.log('Handle Repo active change');
+  //   this.setState({repo})
+  // }
 
   render() {
 
@@ -71,7 +73,13 @@ export default class App extends React.Component {
         <h2>Welcome to React {this.count} -- {this.state.count}</h2>
         {this.state.messagesData.map((x)=> <Message number={x+this.count}/> )}
         <Repos handler={this.handleRepoActiveChange} repos={this.state.myRepos}/>
-        <RepoDetail repo={this.state.repo} />
+        <RepoDetail repo={this.props.active} />
     </div>
   }
 }
+
+const mapStateToProps = (state)=>{
+  return state
+}
+
+export default connect(mapStateToProps)(App)

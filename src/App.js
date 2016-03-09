@@ -2,6 +2,7 @@ import React from 'react'
 
 import Message from './Message'
 import Repos from './Repos'
+import RepoDetail from './RepoDetail'
 
 export default class App extends React.Component {
 
@@ -14,6 +15,7 @@ export default class App extends React.Component {
       }
       console.log("Constructor Called!");
       this.handleClick = this.handleClick.bind(this)
+      this.handleRepoActiveChange = this.handleRepoActiveChange.bind(this)
   }
 
   componentDidMount() {
@@ -58,13 +60,18 @@ export default class App extends React.Component {
     this.forceUpdate()
   }
 
+  handleRepoActiveChange(repo) {
+    console.log('Handle Repo active change');
+    this.setState({repo})
+  }
+
   render() {
 
     return <div>
         <h2>Welcome to React {this.count} -- {this.state.count}</h2>
         {this.state.messagesData.map((x)=> <Message number={x+this.count}/> )}
-        <Repos repos={this.state.myRepos}/>
-        <button onClick={this.handleClick}>Click!</button>
+        <Repos handler={this.handleRepoActiveChange} repos={this.state.myRepos}/>
+        <RepoDetail repo={this.state.repo} />
     </div>
   }
 }

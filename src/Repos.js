@@ -1,6 +1,6 @@
 import React from 'react'
 import Repo from './Repo'
-
+import Avatar from 'material-ui/lib/avatar'
 
 class Repos extends React.Component {
   constructor(props) {
@@ -10,6 +10,7 @@ class Repos extends React.Component {
   }
 
   handleClick(repo) {
+    this.props.handler(repo)
     this.setState({active: repo})
     console.log('Repos Clicked, state=', this.state);
   }
@@ -20,6 +21,7 @@ class Repos extends React.Component {
     } else {
       return (
         <div style={styles.container}>
+          <Avatar src="https://avatars2.githubusercontent.com/u/239742?v=3&s=400" />
           <div style={styles.repos}>
             {this.props.repos.map(repo =>
               <Repo
